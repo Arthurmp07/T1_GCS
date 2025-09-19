@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Evento {
@@ -26,7 +27,8 @@ public class Evento {
      *      list ingressos disp
      *      qtd de cada tipo (comum e especial)
      *      % de cada tipo (comum e especial)
-     *      % de ocupação total **/
+     *      % de ocupação total
+     *      list eventos**/
 
     public int getEventoID() {
         return eventoID;
@@ -50,5 +52,39 @@ public class Evento {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    /** NOTE
+     *      métodos uteis **/
+
+    public void listEventos(){
+        eventos.forEach(Evento::toString);
+    }
+
+    // Procura evento
+    /** TODO
+     *      selecionar E ENTÃO mostrar detalhes PARA ENTÃO alterar evento **/
+    public void searchEventos(String nome){
+        for(Evento evento : eventos){
+            if(evento.nome.equalsIgnoreCase(nome)){
+                evento.toString();
+                return;
+            }
+        }
+        System.out.println("Evento não encontrado por nome.");
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Evento{" +
+                "eventoID=" + eventoID +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", valor=" + valor +
+                ", qtdVagas=" + qtdVagas +
+                ", eventos=" + eventos +
+                '}';
     }
 }

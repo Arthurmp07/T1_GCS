@@ -5,6 +5,7 @@ public class Cliente {
     protected String cpf;
     protected int idade;
     protected Ingresso ingresso;
+    private boolean presente = false;
 
     public Cliente(String nome, String cpf, int idade, Ingresso ingresso) {
         this.nome = nome;
@@ -13,7 +14,14 @@ public class Cliente {
         this.ingresso = ingresso;
     }
 
-
+    /** TODO
+     *      verificação no SET para apenas no dia do evento **/
+    public boolean isPresente() {
+        return presente;
+    }
+    public void setPresente(boolean presente) {
+        this.presente = presente;
+    }
 
     public String getNome() {
         return nome;
