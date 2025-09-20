@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -73,7 +74,14 @@ public class Evento implements Serializable {
      *      métodos uteis **/
 
     public void listEventos(){
-        eventos.forEach(Evento::toString);
+       if (eventos.isEmpty()){
+           System.out.println("Nenhum evento cadastrado.");
+            return;
+        }
+       for(Evento e : eventos){
+           System.out.printf("%d;%s;%s;%d;%d%n:",
+                   e.eventoID, e.nome, e.descricao, e.valor, e.qtdVagas);
+       }
     }
 
     @Override
