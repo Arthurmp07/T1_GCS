@@ -12,6 +12,8 @@ public class Evento implements Serializable {
     protected String descricao;
     protected int valor;
     protected int qtdVagas;
+    protected List<Cliente> clientesRegistrados = new ArrayList<>();
+    protected List<Cliente> clientesNaoCompareceram = new ArrayList<>();
 
     List<Evento> eventos = new ArrayList<>();
 
@@ -69,6 +71,30 @@ public class Evento implements Serializable {
         this.descricao = descricao;
     }
 
+    public int getQtdVagas() {
+        return qtdVagas;
+    }
+
+    public void setQtdVagas(int qtdVagas) {
+        this.qtdVagas = qtdVagas;
+    }
+
+    public List<Cliente> getClientesRegistrados() {
+        return clientesRegistrados;
+    }
+
+    public void setClientesRegistrados(List<Cliente> clientesRegistrados) {
+        this.clientesRegistrados = clientesRegistrados;
+    }
+
+    public List<Cliente> getClientesNaoCompareceram() {
+        return clientesNaoCompareceram;
+    }
+
+    public void setClientesNaoCompareceram(Cliente clienteNaoCompareceram) {
+        this.clientesNaoCompareceram.add(clienteNaoCompareceram);
+    }
+
     /** NOTE
      *      métodos uteis **/
 
@@ -99,6 +125,21 @@ public class Evento implements Serializable {
             }
         }
         System.out.println("Evento não encontrado por nome.");
+    }
+
+    public void registrarEntrada(Cliente c) {
+        int clienteIdIngresso = c.getIngresso().getIdIngresso();
+        int eventoQtdVagas = c.getIngresso().getEvento().getQtdVagas();
+
+        if(eventoQtdVagas > 0){
+            int sub = eventoQtdVagas - clienteIdIngresso;
+            c.getIngresso().getEvento().setQtdVagas(sub);
+            clientesRegistrados.add(c);
+            System.out.println("Cliente registrado com sucesso!");
+        } else {
+            clientesNaoCompareceram.add(c);
+            System.out.println("Quantidade de vagas excedida!");
+        }
     }
 
 }
