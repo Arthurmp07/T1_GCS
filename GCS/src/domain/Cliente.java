@@ -1,6 +1,9 @@
 package domain;
 
-public class Cliente {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Cliente implements Serializable {
     protected String nome;
     protected String cpf;
     protected int idade;
@@ -14,8 +17,32 @@ public class Cliente {
         this.ingresso = ingresso;
     }
 
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "nome='" + nome + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", idade=" + idade +
+                ", ingresso=" + ingresso +
+                ", presente=" + presente +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Cliente cliente = (Cliente) o;
+        return idade == cliente.idade && presente == cliente.presente && Objects.equals(nome, cliente.nome) && Objects.equals(cpf, cliente.cpf) && Objects.equals(ingresso, cliente.ingresso);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, cpf, idade, ingresso, presente);
+    }
+
     /** TODO
      *      verificação no SET para apenas no dia do evento **/
+
     public boolean isPresente() {
         return presente;
     }
