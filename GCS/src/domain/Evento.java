@@ -1,11 +1,12 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Evento {
+public class Evento implements Serializable {
     protected int eventoID;
     protected String nome;
     protected String descricao;
@@ -22,6 +23,18 @@ public class Evento {
         this.qtdVagas = qtdVagas;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Evento evento = (Evento) o;
+        return eventoID == evento.eventoID && valor == evento.valor && qtdVagas == evento.qtdVagas && Objects.equals(nome, evento.nome) && Objects.equals(descricao, evento.descricao) && Objects.equals(eventos, evento.eventos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(eventoID, nome, descricao, valor, qtdVagas, eventos);
+    }
+
     /** TODO:
      *      add evento
      *      list ingressos disp
@@ -29,6 +42,8 @@ public class Evento {
      *      % de cada tipo (comum e especial)
      *      % de ocupação total
      *      list eventos**/
+
+
 
     public int getEventoID() {
         return eventoID;
@@ -61,6 +76,18 @@ public class Evento {
         eventos.forEach(Evento::toString);
     }
 
+    @Override
+    public String toString() {
+        return "Evento{" +
+                "eventoID=" + eventoID +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", valor=" + valor +
+                ", qtdVagas=" + qtdVagas +
+                ", eventos=" + eventos +
+                '}';
+    }
+
     // Procura evento
     /** TODO
      *      selecionar E ENTÃO mostrar detalhes PARA ENTÃO alterar evento **/
@@ -74,17 +101,4 @@ public class Evento {
         System.out.println("Evento não encontrado por nome.");
     }
 
-
-
-    @Override
-    public String toString() {
-        return "Evento{" +
-                "eventoID=" + eventoID +
-                ", nome='" + nome + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", valor=" + valor +
-                ", qtdVagas=" + qtdVagas +
-                ", eventos=" + eventos +
-                '}';
-    }
 }
