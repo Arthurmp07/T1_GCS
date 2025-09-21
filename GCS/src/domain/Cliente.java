@@ -1,6 +1,8 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Cliente implements Serializable {
@@ -9,6 +11,7 @@ public class Cliente implements Serializable {
     protected int idade;
     protected Ingresso ingresso;
     private boolean presente = false;
+    protected List<Cliente> clientes = new ArrayList<>();
 
     public Cliente(String nome, String cpf, int idade, Ingresso ingresso) {
         this.nome = nome;
@@ -80,5 +83,11 @@ public class Cliente implements Serializable {
 
     public void setIngresso(Ingresso ingresso) {
         this.ingresso = ingresso;
+    }
+
+    public List<Cliente> getClientes() {return clientes;}
+
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
     }
 }

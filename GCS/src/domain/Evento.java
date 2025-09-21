@@ -1,7 +1,6 @@
 package domain;
 
 import java.io.Serializable;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +13,14 @@ public class Evento implements Serializable {
     protected String descricao;
     protected int valor;
     protected int qtdVagas;
+
+    protected List<Cliente> clientesPresentes = new ArrayList<>();
+    protected List<Cliente> clientesAusentes = new ArrayList<>();
+    protected List<Cliente> clientesComIngresso = new  ArrayList<>();
+    protected int vagasOcupadas;
+
     protected LocalDate dataEvento;
+
 
     List<Evento> eventos = new ArrayList<>();
     List<Ingresso> ingressos = new ArrayList<>();
@@ -107,6 +113,7 @@ public class Evento implements Serializable {
         this.descricao = descricao;
     }
 
+
     public int getValor() {
         return valor;
     }
@@ -115,14 +122,37 @@ public class Evento implements Serializable {
         this.valor = valor;
     }
 
+
     public int getQtdVagas() {
         return qtdVagas;
     }
 
 
+
+
     public void setQtdVagas(int qtdVagas) {
         this.qtdVagas = qtdVagas;
     }
+
+
+    public List<Cliente> getClientesPresentes() {
+        return clientesPresentes;
+    }
+
+    public void setClientesPresentes(List<Cliente> clientesPresentes) {
+        this.clientesPresentes = clientesPresentes;
+    }
+
+    public List<Cliente> getClientesAusentes() {
+        return clientesAusentes;
+    }
+
+    public void setClientesAusentes(Cliente clienteNaoCompareceram) {
+        this.clientesAusentes.add(clienteNaoCompareceram);
+    }
+
+    /** NOTE
+     *      métodos uteis **/
 
     public LocalDate getDataEvento() {
         return dataEvento;
@@ -136,7 +166,8 @@ public class Evento implements Serializable {
         return ingressos;
     }
 
-    public void listEventos(){
+
+    public void lista(){
        if (eventos.isEmpty()){
            System.out.println("Nenhum evento cadastrado.");
             return;
@@ -171,4 +202,68 @@ public class Evento implements Serializable {
         }
         System.out.println("Evento não encontrado por nome.");
     }
+
+
+    public boolean clienteTemIngresso(Cliente cliente) {
+        return cliente.getIngresso() != null &&
+               cliente.getIngresso().getEvento().getEventoID() == this.eventoID &&
+               clientesComIngresso.contains(cliente);
+    }
+
+    public boolean registrarEntrada(Cliente c) {
+        if(!clienteTemIngresso(c)) {
+            System.out.println(c.getNome() + " não possui ingresso");
+            return false;
+        }
+        if(clientesPresentes.contains(c)){
+            System.out.println(c.getNome() + " já está na lista");
+            return false;
+        }
+        clientesAusentes.remove(c);
+        clientesPresentes.add(c);
+        vagasOcupadas++;
+        System.out.println("Entrada registrada com sucesso");
+        return true;
+    }
+
+    public boolean adicionarClienteComIngresso(Cliente c){
+        if(clientesComIngresso.size() <= qtdVagas) {
+            clientesComIngresso.add(c);
+            return true;
+        }
+        System.out.println("Não há mais vagas disponíveis");
+        return false;
+    }
+
+    public void processarAusencias() {
+        clientesAusentes.clear();
+        for(Cliente cliente : clientesComIngresso){
+            if(!clientesPresentes.contains(cliente)){
+                clientesAusentes.add(cliente);
+            }
+        }
+    }
+
+    public void listarAusentes() {
+        System.out.println("Listar ausentes:");
+        if(clientesAusentes.isEmpty()) {
+            System.out.println("Nenhum cliente registrado");
+        } else {
+            for(Cliente cliente : clientesAusentes){
+                System.out.println(cliente.getNome());
+            }
+        }
+    }
+
+    public void listaPresentes() {
+        System.out.println("Listar presentes:");
+        if(clientesPresentes.isEmpty()){
+            System.out.println("Nenhum cliente registrado");
+        } else {
+            for(Cliente cliente : clientesPresentes){
+                System.out.println(cliente.getNome());
+            }
+        }
+    }
+
 }
