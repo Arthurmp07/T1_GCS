@@ -4,44 +4,42 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Ingresso implements Serializable {
-    protected Evento evento;
-    protected String data;
-    protected int idIngresso = 0;
-    protected boolean isEspecial;
 
-    public Ingresso(Evento evento, String data, boolean isEspecial) {
+    protected Evento evento;
+    protected String codigo;
+    protected boolean isEspecial;
+    protected int idIngresso = 0;
+    protected String data;
+
+    public Ingresso(Evento evento, String codigo, boolean isEspecial, String data) {
         this.evento = evento;
-        this.data = data;
-        this.idIngresso++; // NOTE soma 1 a cada instância
+        this.codigo = codigo;
         this.isEspecial = isEspecial;
+        this.idIngresso++; // NOTE soma 1 a cada instância
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Ingresso ingresso = (Ingresso) o;
-        return idIngresso == ingresso.idIngresso && isEspecial == ingresso.isEspecial && Objects.equals(evento, ingresso.evento) && Objects.equals(data, ingresso.data);
+        return isEspecial == ingresso.isEspecial &&
+                Objects.equals(evento, ingresso.evento) &&
+                Objects.equals(codigo, ingresso.codigo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(evento, data, idIngresso, isEspecial);
+        return Objects.hash(evento, codigo, isEspecial);
     }
 
     @Override
     public String toString() {
         return "Ingresso{" +
-                "evento=" + evento +
-                ", data='" + data + '\'' +
-                ", idIngresso=" + idIngresso +
-                ", isEspecial=" + isEspecial +
+                "evento=" + evento.getNome() +
+                ", codigo='" + codigo + '\'' +
+                ", especial=" + isEspecial +
                 '}';
     }
-
-    /** TODO
-     *      15% especial *COM BASE NA QUANTIDADE DE INGRESSOS DO EVENTOS*
-     *      não sei mais, finalizar? :)**/
-
 
 
     public boolean isEspecial() {
