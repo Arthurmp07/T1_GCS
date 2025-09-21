@@ -12,8 +12,10 @@ public class Evento implements Serializable {
     protected String descricao;
     protected int valor;
     protected int qtdVagas;
-    protected List<Cliente> clientesRegistrados = new ArrayList<>();
-    protected List<Cliente> clientesNaoCompareceram = new ArrayList<>();
+    protected List<Cliente> clientesPresentes = new ArrayList<>();
+    protected List<Cliente> clientesAusentes = new ArrayList<>();
+    protected List<Cliente> clientesComIngresso = new  ArrayList<>();
+    protected int vagasOcupadas;
 
     List<Evento> eventos = new ArrayList<>();
 
@@ -79,20 +81,20 @@ public class Evento implements Serializable {
         this.qtdVagas = qtdVagas;
     }
 
-    public List<Cliente> getClientesRegistrados() {
-        return clientesRegistrados;
+    public List<Cliente> getClientesPresentes() {
+        return clientesPresentes;
     }
 
-    public void setClientesRegistrados(List<Cliente> clientesRegistrados) {
-        this.clientesRegistrados = clientesRegistrados;
+    public void setClientesPresentes(List<Cliente> clientesPresentes) {
+        this.clientesPresentes = clientesPresentes;
     }
 
-    public List<Cliente> getClientesNaoCompareceram() {
-        return clientesNaoCompareceram;
+    public List<Cliente> getClientesAusentes() {
+        return clientesAusentes;
     }
 
-    public void setClientesNaoCompareceram(Cliente clienteNaoCompareceram) {
-        this.clientesNaoCompareceram.add(clienteNaoCompareceram);
+    public void setClientesAusentes(Cliente clienteNaoCompareceram) {
+        this.clientesAusentes.add(clienteNaoCompareceram);
     }
 
     /** NOTE
@@ -127,18 +129,65 @@ public class Evento implements Serializable {
         System.out.println("Evento não encontrado por nome.");
     }
 
-    public void registrarEntrada(Cliente c) {
-        int clienteIdIngresso = c.getIngresso().getIdIngresso();
-        int eventoQtdVagas = c.getIngresso().getEvento().getQtdVagas();
+    public boolean clienteTemIngresso(Cliente cliente) {
+        return cliente.getIngresso() != null &&
+               cliente.getIngresso().getEvento().getEventoID() == this.eventoID &&
+               clientesComIngresso.contains(cliente);
+    }
 
-        if(eventoQtdVagas > 0){
-            int sub = eventoQtdVagas - clienteIdIngresso;
-            c.getIngresso().getEvento().setQtdVagas(sub);
-            clientesRegistrados.add(c);
-            System.out.println("Cliente registrado com sucesso!");
+    public boolean registrarEntrada(Cliente c) {
+        if(!clienteTemIngresso(c)) {
+            System.out.println(c.getNome() + " não possui ingresso");
+            return false;
+        }
+        if(clientesPresentes.contains(c)){
+            System.out.println(c.getNome() + " já está na lista");
+            return false;
+        }
+        clientesAusentes.remove(c);
+        clientesPresentes.add(c);
+        vagasOcupadas++;
+        System.out.println("Entrada registrada com sucesso");
+        return true;
+    }
+
+    public boolean adicionarClienteComIngresso(Cliente c){
+        if(clientesComIngresso.size() <= qtdVagas) {
+            clientesComIngresso.add(c);
+            return true;
+        }
+        System.out.println("Não há mais vagas disponíveis");
+        return false;
+    }
+
+    public void processarAusencias() {
+        clientesAusentes.clear();
+        for(Cliente cliente : clientesComIngresso){
+            if(!clientesPresentes.contains(cliente)){
+                clientesAusentes.add(cliente);
+            }
+        }
+    }
+
+    public void listarAusentes() {
+        System.out.println("Listar ausentes:");
+        if(clientesAusentes.isEmpty()) {
+            System.out.println("Nenhum cliente registrado");
         } else {
-            clientesNaoCompareceram.add(c);
-            System.out.println("Quantidade de vagas excedida!");
+            for(Cliente cliente : clientesAusentes){
+                System.out.println(cliente.getNome());
+            }
+        }
+    }
+
+    public void listaPresentes() {
+        System.out.println("Listar presentes:");
+        if(clientesPresentes.isEmpty()){
+            System.out.println("Nenhum cliente registrado");
+        } else {
+            for(Cliente cliente : clientesPresentes){
+                System.out.println(cliente.getNome());
+            }
         }
     }
 
