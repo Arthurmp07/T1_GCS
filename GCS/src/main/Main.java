@@ -11,6 +11,8 @@ import servico.ProcessarEntrada;
 import servico.Salvar;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +23,10 @@ public class Main {
         //para carregar uma lista da memoria voce ira utilizar Carregar.deserializer(Arquivos.(o nome da class).getValues());
         //para salvar uma lista para a memoria voce ira utlizar Salvar.serializer(Tua lista, Arquivos.(o nome da classe).getValues())
         //para pegar os valores carregados voce ira fazer List<(o nome da class)> lista = Carregar.get(o nome da class);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate data = LocalDate.parse("25/11/2025", dtf);
 
-        Evento evento = new Evento("the town", "musicas foda", 1000, 3);
+        Evento evento = new Evento("the town", "musicas foda", 1000, 3, data);
         List<Cliente> clientes = new ArrayList<>(List.of(
                 new Cliente("Carlos", "1111111111111111", 53, new Ingresso(evento, "25/11/2025", false)),
                 new Cliente("Maria Helena", "22222222222", 2,  new Ingresso(evento, "25/11/2025", true)),

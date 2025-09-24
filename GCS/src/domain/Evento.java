@@ -1,5 +1,6 @@
 package domain;
 
+//Bibliotecas
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,23 +9,25 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.time.LocalDate;
 
 public class Evento implements Serializable {
+
+    //Definições de Atributos
     protected int eventoID;
     protected String nome;
     protected String descricao;
     protected int valor;
     protected int qtdVagas;
+    protected LocalDate dataEvento;
+    protected int vagasOcupadas;
 
+    //Arrays
     protected List<Cliente> clientesPresentes = new ArrayList<>();
     protected List<Cliente> clientesAusentes = new ArrayList<>();
     protected List<Cliente> clientesComIngresso = new  ArrayList<>();
-    protected int vagasOcupadas;
-
-    protected LocalDate dataEvento;
-
-
     List<Evento> eventos = new ArrayList<>();
     List<Ingresso> ingressos = new ArrayList<>();
 
+
+    //Cosntrutor e validação de null/vazios na qtdvagas e eventos
     public Evento(String nome, String descricao, int valor, int qtdVagas, LocalDate dataEvento) {
 
         if (nome == null || nome.isBlank() || descricao == null || descricao.isBlank())
@@ -44,6 +47,7 @@ public class Evento implements Serializable {
         gerarIngressos();
     }
 
+    //Metodo gerador de ingressos
     private void gerarIngressos() {
         int qtdEspeciais = (int) Math.ceil(qtdVagas * 0.15);
         int qtdComuns = qtdVagas - qtdEspeciais;
@@ -51,17 +55,17 @@ public class Evento implements Serializable {
 
         for (int i = 1; i <= qtdComuns; i++) {
             String codigo = String.format("%d-%03d", eventoID, i);
-            ingressos.add(new Ingresso(this, codigo, false, dataEvento.toString()));
+            ingressos.add(new Ingresso(this, codigo, false));
         }
 
 
         for (int i = qtdComuns + 1; i <= qtdVagas; i++) {
             String codigo = String.format("%d-%03dE", eventoID, i);
-            ingressos.add(new Ingresso(this, codigo, true, dataEvento.toString()));
+            ingressos.add(new Ingresso(this, codigo, true));
         }
     }
 
-
+    //Comparador de objetos por sobrescrita
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -74,6 +78,7 @@ public class Evento implements Serializable {
                 Objects.equals(eventos, evento.eventos);
     }
 
+    //Metodo auxiliar do comparador de objetos
     @Override
     public int hashCode() {
         return Objects.hash(eventoID, nome, descricao, valor, qtdVagas, eventos);
@@ -88,11 +93,10 @@ public class Evento implements Serializable {
      *      - list eventos
      **/
 
-
+    //Getters e Setters
     public int getEventoID() {
         return eventoID;
     }
-
     public void setEventoID(int eventoID) {
         this.eventoID = eventoID;
     }
@@ -100,7 +104,6 @@ public class Evento implements Serializable {
     public String getNome() {
         return nome;
     }
-
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -108,7 +111,6 @@ public class Evento implements Serializable {
     public String getDescricao() {
         return descricao;
     }
-
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
@@ -117,7 +119,6 @@ public class Evento implements Serializable {
     public int getValor() {
         return valor;
     }
-
     public void setValor(int valor) {
         this.valor = valor;
     }
@@ -126,38 +127,13 @@ public class Evento implements Serializable {
     public int getQtdVagas() {
         return qtdVagas;
     }
-
-
-
-
     public void setQtdVagas(int qtdVagas) {
         this.qtdVagas = qtdVagas;
     }
 
-
-    public List<Cliente> getClientesPresentes() {
-        return clientesPresentes;
-    }
-
-    public void setClientesPresentes(List<Cliente> clientesPresentes) {
-        this.clientesPresentes = clientesPresentes;
-    }
-
-    public List<Cliente> getClientesAusentes() {
-        return clientesAusentes;
-    }
-
-    public void setClientesAusentes(Cliente clienteNaoCompareceram) {
-        this.clientesAusentes.add(clienteNaoCompareceram);
-    }
-
-    /** NOTE
-     *      métodos uteis **/
-
     public LocalDate getDataEvento() {
         return dataEvento;
     }
-
     public void setDataEvento(LocalDate dataEvento) {
         this.dataEvento = dataEvento;
     }
@@ -165,6 +141,22 @@ public class Evento implements Serializable {
     public List<Ingresso> getIngressos() {
         return ingressos;
     }
+
+    public List<Cliente> getClientesPresentes() {
+        return clientesPresentes;
+    }
+    public void setClientesPresentes(List<Cliente> clientesPresentes) {
+        this.clientesPresentes = clientesPresentes;
+    }
+
+    public List<Cliente> getClientesAusentes() {
+        return clientesAusentes;
+    }
+    public void setClientesAusentes(Cliente clienteNaoCompareceram) {this.clientesAusentes.add(clienteNaoCompareceram);}
+
+
+    /* Metodos */
+
 
 
     public void lista(){
@@ -178,20 +170,6 @@ public class Evento implements Serializable {
        }
 
     }
-
-    @Override
-    public String toString() {
-        return "Evento{" +
-                "eventoID=" + eventoID +
-                ", nome='" + nome + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", valor=" + valor +
-                ", qtdVagas=" + qtdVagas +
-                ", eventos=" + eventos +
-                ", dataEvento=" + dataEvento +
-                '}';
-    }
-
 
     public void searchEventos(String nome) {
         for (Evento evento : eventos) {
@@ -264,6 +242,21 @@ public class Evento implements Serializable {
                 System.out.println(cliente.getNome());
             }
         }
+    }
+
+    // Retorno String
+
+    @Override
+    public String toString() {
+        return "Evento{" +
+                "eventoID=" + eventoID +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", valor=" + valor +
+                ", qtdVagas=" + qtdVagas +
+                ", eventos=" + eventos +
+                ", dataEvento=" + dataEvento +
+                '}';
     }
 
 }
