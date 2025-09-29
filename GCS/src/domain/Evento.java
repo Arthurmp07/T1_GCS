@@ -154,6 +154,10 @@ public class Evento implements Serializable {
     }
     public void setClientesAusentes(Cliente clienteNaoCompareceram) {this.clientesAusentes.add(clienteNaoCompareceram);}
 
+    public List<Cliente> getClientesComIngresso() {
+        return clientesComIngresso;
+    }
+
     public static List<Evento> getEventos() {
         return eventos;
     }
@@ -161,6 +165,15 @@ public class Evento implements Serializable {
     public static void addEventos(Evento evento) {
         eventos.add(evento);
     }
+
+    public int getVagasOcupadas() {
+        return vagasOcupadas;
+    }
+
+    public void setVagasOcupadas(int vagasOcupadas) {
+        this.vagasOcupadas = vagasOcupadas;
+    }
+
     /* Metodos */
 
 

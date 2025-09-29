@@ -6,10 +6,7 @@ import domain.Arquivos;
 import domain.Cliente;
 import domain.Evento;
 import domain.Ingresso;
-import servico.Carregar;
-import servico.ProcessarEntrada;
-import servico.RelatorioMensal;
-import servico.Salvar;
+import servico.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -47,8 +44,14 @@ public class Main {
         relatorioMensal.gerar(LocalDate.of(2025, 11, 25), evento);
         relatorioMensal.listarAno(LocalDate.of(2025, 12, 25), evento);
 
+        Cliente cliente = new Cliente("Jefferson", "98958472092", 32, null);
+        EmitirIngresso ingresso = new EmitirIngresso();
+        ingresso.emitir(evento2, cliente);
+        System.out.println(evento2.getClientesComIngresso());
 
-       
+
+
+
     }
 }
 
