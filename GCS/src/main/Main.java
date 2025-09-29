@@ -8,6 +8,7 @@ import domain.Evento;
 import domain.Ingresso;
 import servico.Carregar;
 import servico.ProcessarEntrada;
+import servico.RelatorioMensal;
 import servico.Salvar;
 
 import java.io.IOException;
@@ -39,9 +40,12 @@ public class Main {
         ProcessarEntrada.processarEntrada(clientesCarregados, evento, clientesCarregados.get(0));
 
         //Eventos.listEventos();
-
-
-
+        Evento evento2 = new Evento("lollapalooza", "festival de música alternativa", 2500, 300, LocalDate.of(2025,12,22) );
+        Evento.addEventos(evento);
+        Evento.addEventos(evento2);
+        RelatorioMensal relatorioMensal = new RelatorioMensal();
+        relatorioMensal.gerar(LocalDate.of(2025, 11, 25), evento);
+        relatorioMensal.listarAno(LocalDate.of(2025, 12, 25), evento);
 
 
        

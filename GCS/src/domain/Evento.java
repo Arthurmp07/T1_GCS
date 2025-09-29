@@ -23,7 +23,7 @@ public class Evento implements Serializable {
     protected List<Cliente> clientesPresentes = new ArrayList<>();
     protected List<Cliente> clientesAusentes = new ArrayList<>();
     protected List<Cliente> clientesComIngresso = new  ArrayList<>();
-    List<Evento> eventos = new ArrayList<>();
+    protected static List<Evento> eventos = new ArrayList<>();
     List<Ingresso> ingressos = new ArrayList<>();
 
 
@@ -154,7 +154,13 @@ public class Evento implements Serializable {
     }
     public void setClientesAusentes(Cliente clienteNaoCompareceram) {this.clientesAusentes.add(clienteNaoCompareceram);}
 
+    public static List<Evento> getEventos() {
+        return eventos;
+    }
 
+    public static void addEventos(Evento evento) {
+        eventos.add(evento);
+    }
     /* Metodos */
 
 
@@ -254,7 +260,6 @@ public class Evento implements Serializable {
                 ", descricao='" + descricao + '\'' +
                 ", valor=" + valor +
                 ", qtdVagas=" + qtdVagas +
-                ", eventos=" + eventos +
                 ", dataEvento=" + dataEvento +
                 '}';
     }
