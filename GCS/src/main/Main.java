@@ -47,6 +47,9 @@ public class Main {
         relatorioMensal.gerar(LocalDate.of(2025, 11, 25), evento);
         relatorioMensal.listarAno(LocalDate.of(2025, 12, 25), evento);
 
+        //Eventos.consultarDetalhes
+        evento.consultarDetalhes(evento2);
+
 
        
     }

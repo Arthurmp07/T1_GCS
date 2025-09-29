@@ -264,4 +264,36 @@ public class Evento implements Serializable {
                 '}';
     }
 
+    public void consultarDetalhes(Evento e) {
+        System.out.println("Número total de ingressos disponives: "+e.ingressos.size());
+        int ingressosEspeciais;
+        ingressosEspeciais= (15 * e.ingressos.size())/100;
+        int ingressosNaoEspeciais= e.ingressos.size() - ingressosEspeciais;
+        System.out.println("Numero de ingressos nao especiais: "+ingressosNaoEspeciais);
+        System.out.println("Numero de ingressos especiais: "+ ingressosEspeciais);
+
+        int contEspecial=0;
+        int contNaoEspecial=0;
+
+        for (Cliente c : clientesComIngresso){
+            if (c.getIngresso().isEspecial()){
+                contEspecial++;
+            }else {
+                contNaoEspecial++;
+            }
+        }
+        double porcentagemEspecial= ((double) contEspecial*100)/(double) ingressosEspeciais;
+        double porcentagemNaoEspecial= ((double)contNaoEspecial*100)/(double)ingressosNaoEspeciais;
+
+
+        System.out.printf("\nForam vendidos: %d ingressos nao especiais o que representa: %.2f",contNaoEspecial,porcentagemNaoEspecial);
+        System.out.print("%");
+        System.out.printf("\nForam vendidos: %d ingressos especiais o que representa: %.2f",contEspecial,porcentagemEspecial);
+        System.out.print("%");
+
+
+        double porcentagemVagasOcupadas= (double) e.vagasOcupadas*100/(double) e.qtdVagas;
+        System.out.printf("\nPercentual de vagas ocupadas: %.2f",porcentagemVagasOcupadas);
+        System.out.print("%");
+    }
 }
