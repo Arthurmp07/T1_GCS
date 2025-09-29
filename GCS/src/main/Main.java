@@ -44,10 +44,14 @@ public class Main {
         relatorioMensal.gerar(LocalDate.of(2025, 11, 25), evento);
         relatorioMensal.listarAno(LocalDate.of(2025, 12, 25), evento);
 
+        //Eventos.consultarDetalhes
+        //evento.consultarDetalhes(evento2);
+
         Cliente cliente = new Cliente("Jefferson", "98958472092", 32, null);
         EmitirIngresso ingresso = new EmitirIngresso();
         ingresso.emitir(evento2, cliente);
         System.out.println(evento2.getClientesComIngresso());
+
 
 
 
