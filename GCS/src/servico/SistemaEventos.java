@@ -33,6 +33,7 @@ public class SistemaEventos {
             System.out.println("8. Relatório mensal");
             System.out.println("9. Relatório anual");
             System.out.println("10. Ranking de Clientes VIP");
+            System.out.println("11. Cancelar evento");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
 
@@ -50,6 +51,7 @@ public class SistemaEventos {
                 case 8 -> relatorioMensal();
                 case 9 -> relatorioAnual();
                 case 10 -> rankingClientesVIP();
+                case 11 -> Cancelar();
 
                 case 0 -> {
                     rodando = false;
@@ -181,6 +183,21 @@ public class SistemaEventos {
         }
 
         RankingVIP.gerarRanking(eventos);
+    }
+    private static void Cancelar(){
+        listarEventos();
+        System.out.print("Digite o ID do evento que deseja cancelar: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+        
+        for (Evento e : Evento.getEventos()) {
+            if (e.getEventoID() == id) {
+                Cancelar.cancelar(e);
+                return;
+            }
+        }
+        System.out.println("Evento não encontrado.");
+        return;
     }
 
 }
