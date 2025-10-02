@@ -6,6 +6,8 @@ import java.util.Objects;
 
 public class Ingresso implements Serializable {
 
+    private static int contadorGlobal = 0;
+
     //Atributos
     protected Evento evento;
     protected String codigo;
@@ -17,15 +19,12 @@ public class Ingresso implements Serializable {
         this.evento = evento;
         this.codigo = codigo;
         this.isEspecial = isEspecial;
-        this.idIngresso++; // NOTE soma 1 a cada instância
+        this.idIngresso = contadorGlobal++; // NOTE soma 1 a cada instância
     }
 
     //Getters e Setters
     public boolean isEspecial() {return isEspecial;}
-    public void setEspecial(boolean especial) {this.isEspecial = especial;}
 
-    public int getIdIngresso() {return idIngresso;}
-    public void setIdIngresso(int idIngresso) {this.idIngresso = idIngresso;}
 
     public Evento getEvento() {return evento;}
     public void setEvento(Evento evento) {this.evento = evento;}
