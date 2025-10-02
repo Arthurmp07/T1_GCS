@@ -22,8 +22,8 @@ public class Cancelar {
             System.out.println("Evento não foi cancelado");
             return;
         }
-        evento.getIngressos().clear();
-
-        //TODO: Atualizar a lista de eventos após correção da classe Evento().
+        
+        Evento.getEventos().remove(evento);
+        System.out.println("Evento cancelado e removido da listagem!");
     }
 }
